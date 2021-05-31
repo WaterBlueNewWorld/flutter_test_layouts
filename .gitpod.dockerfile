@@ -1,6 +1,6 @@
 FROM gitpod/workspace-full:latest
 
-LABEL maintainer="vitortorresvt@gmail.com"
+LABEL maintainer="alejandroj@tuta.io"
 
 USER root
 
@@ -32,12 +32,12 @@ RUN rm "${ANDROID_SDK_ARCHIVE}"
 
 # Flutter
 ENV FLUTTER_HOME="/home/gitpod/flutter"
-RUN git clone https://github.com/flutter/flutter $FLUTTER_HOME
+RUN git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_HOME
 RUN $FLUTTER_HOME/bin/flutter channel master
 RUN $FLUTTER_HOME/bin/flutter upgrade
 RUN $FLUTTER_HOME/bin/flutter precache
 RUN $FLUTTER_HOME/bin/flutter config --enable-web --no-analytics
-RUN $FLUTTER_HOME/bin/flutter doctor --android-licenses -v
+RUN yes "y" | $FLUTTER_HOME/bin/flutter doctor --android-licenses -v
 ENV PUB_CACHE=/workspace/.pub_cache
 
 # Env
