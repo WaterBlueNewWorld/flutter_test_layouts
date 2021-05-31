@@ -19,9 +19,9 @@ ENV ANDROID_SDK_ARCHIVE="${ANDROID_HOME}/archive"
 ENV ANDROID_STUDIO_PATH="/home/gitpod/"
 
 RUN cd "${ANDROID_STUDIO_PATH}"
-RUN wget -qO android_studio.zip https://dl.google.com/dl/android/studio/ide-zips/3.3.0.20/android-studio-ide-182.5199772-linux.zip
-RUN unzip android_studio.zip
-RUN rm -f android_studio.zip
+RUN wget -qO android_studio.tar.gz https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.2.0.24/android-studio-ide-202.7322048-linux.tar.gz
+RUN tar -xf android_studio.tar.gz
+RUN rm -f android_studio.tar.gz
 
 RUN mkdir -p "${ANDROID_HOME}"
 RUN touch $ANDROID_HOME/repositories.cfg
@@ -37,7 +37,7 @@ RUN $FLUTTER_HOME/bin/flutter channel master
 RUN $FLUTTER_HOME/bin/flutter upgrade
 RUN $FLUTTER_HOME/bin/flutter precache
 RUN $FLUTTER_HOME/bin/flutter config --enable-web --no-analytics
-RUN yes "y" | $FLUTTER_HOME/bin/flutter doctor --android-licenses -v
+RUN echo y | $FLUTTER_HOME/bin/flutter doctor --android-licenses -v
 ENV PUB_CACHE=/workspace/.pub_cache
 
 # Env
