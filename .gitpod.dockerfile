@@ -1,7 +1,5 @@
 FROM gitpod/workspace-full:latest
 
-LABEL maintainer="vitortorresvt@gmail.com"
-
 USER root
 
 RUN apt-get update -y
