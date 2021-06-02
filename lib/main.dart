@@ -353,7 +353,7 @@ Cada 20 de noviembre, muchas niñas se disfrazan de adelitas como parte de las a
 
 Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la historia de la Revolución Mexicana. Tal es el caso de Petra Herrera, quien tuvo que luchar disfrazada de hombre y bajo el seudónimo de Pedro Herrera, pero gracias a sus notables hazañas ganó reconocimiento por parte de sus compañeros de batalla.
                   """,
-                    softWrap: true,
+                    softWrap: true,textAlign: TextAlign.justify,
                   ),
                 ],
               ),
