@@ -7,6 +7,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:latlong/latlong.dart';
 import 'package:test_layouts/drawer.dart';
+import 'package:test_layouts/CustomPopupmenu.dart';
+import 'package:test_layouts/Buttons.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +30,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -39,7 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
   double _initSize = 100.0;
   double _fabHeight = 0;
   final GlobalKey<ScaffoldState> _state = new GlobalKey<ScaffoldState>();
-  
+  final GlobalKey keybtn1 = new GlobalKey();
+  final GlobalKey keybtn2 = new GlobalKey();
+  final GlobalKey keybtn3 = new GlobalKey();
 
   void initState() {
     super.initState();
@@ -47,119 +50,113 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final ScrollController scontroller = new ScrollController();
-  
+
   @override
   Widget build(BuildContext context) {
     _openSize = MediaQuery.of(context).size.height * .80;
     PopupMenu.context = context;
-    
+
     return Scaffold(
       key: _state,
       body: Stack(
-      alignment: Alignment.topCenter,
-      children: <Widget>[
-        SlidingUpPanel(
-          parallaxEnabled: true,
-          parallaxOffset: .5,
-          borderRadius: BorderRadius.only(
+        alignment: Alignment.topCenter,
+        children: <Widget>[
+          SlidingUpPanel(
+            parallaxEnabled: true,
+            parallaxOffset: .5,
+            borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(18.0),
                 topRight: Radius.circular(18.0)),
-          backdropTapClosesPanel: false,
-          backdropEnabled: true,
-          backdropColor: Colors.black,
-          backdropOpacity: 0.5,
-          maxHeight: _openSize,
-          minHeight: _closeSize,
-          body: _body(),
-          onPanelSlide: (double pos) => setState((){
-            _fabHeight = pos * (_openSize - _closeSize) + _initSize;
-          }),
-          panelBuilder: (scontroller) => _panel(scontroller),
-          onPanelClosed: () {
-            //scontroller.animateTo(scontroller.position.minScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-          },
-          collapsed: Stack(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 40.0),
-                  Container(
-                      width: 30,
-                      height: 5,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[600],
-                          borderRadius: BorderRadius.all(Radius.circular(30.0))
-                      )
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        Positioned(
-          right: 20.0,
-          bottom: _fabHeight,
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.gps_fixed,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: () {},
-            backgroundColor: Colors.white,
-          ),
-        ),
-        Positioned(
-            top: 0,
-            child: ClipRRect(
-                child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).padding.top,
-                      color: Colors.transparent,
-                    )
+            backdropTapClosesPanel: false,
+            backdropEnabled: true,
+            backdropColor: Colors.black,
+            backdropOpacity: 0.5,
+            maxHeight: _openSize,
+            minHeight: _closeSize,
+            body: _body(),
+            onPanelSlide: (double pos) => setState(() {
+              _fabHeight = pos * (_openSize - _closeSize) + _initSize;
+            }),
+            panelBuilder: (scontroller) => _panel(scontroller),
+            onPanelClosed: () {
+              //scontroller.animateTo(scontroller.position.minScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+            },
+            collapsed: Stack(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 40.0),
+                    Container(
+                        width: 30,
+                        height: 5,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[600],
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))))
+                  ],
                 )
-            )
-        ),
-        Positioned(
-          top: 35.0,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 18.0, 20.0, 18.0),
-            child: Text(
-              "Lector QR PECUU",
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24.0),
-              boxShadow: [
-                BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)
               ],
             ),
           ),
-        ),
-        Positioned(
-          top: 15,
-          left: 20.0,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(6.0, 18.0, 0, 0),
+          Positioned(
+            right: 20.0,
+            bottom: _fabHeight,
             child: FloatingActionButton(
-              child: Icon(Icons.menu, color: Colors.blue),
+              child: Icon(
+                Icons.gps_fixed,
+                color: Theme.of(context).primaryColor,
+              ),
+              onPressed: () {},
               backgroundColor: Colors.white,
-              onPressed: () => {_state.currentState.openDrawer()},
             ),
-          )
-        )
-      ],
-    ),
+          ),
+          Positioned(
+              top: 0,
+              child: ClipRRect(
+                  child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).padding.top,
+                        color: Colors.transparent,
+                      )))),
+          Positioned(
+            top: 35.0,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20.0, 18.0, 20.0, 18.0),
+              child: Text(
+                "Lector QR PECUU",
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+              top: 15,
+              left: 20.0,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(6.0, 18.0, 0, 0),
+                child: FloatingActionButton(
+                  child: Icon(Icons.menu, color: Colors.blue),
+                  backgroundColor: Colors.white,
+                  onPressed: () => {_state.currentState.openDrawer()},
+                ),
+              ))
+        ],
+      ),
       drawer: MainPageDrawer(),
     );
   }
 
-
-  Widget _panel(ScrollController sc){
+  Widget _panel(ScrollController sc) {
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,
@@ -187,10 +184,111 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _button("Leer", Icons.qr_code, Colors.blue),
-                _button("Indicaciones", Icons.drag_indicator, Colors.red),
-                _button("Más", Icons.more_horiz, Colors.green),
-                
+                Buttons(
+                    label: "Leer",
+                    icon: Icons.qr_code,
+                    key: keybtn1,
+                    fun: () => {
+                          CustomPopupmenu(
+                            cantidad: 3,
+                            pos: CustomPopupmenu.getWidgetGlobalRect(keybtn1),
+                            onState: stateChanged,
+                            items: [
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                            ],
+                          ).popupmenu()
+                        }),
+                Buttons(
+                    label: "Informacion",
+                    icon: Icons.drag_indicator,
+                    color: Colors.red,
+                    key: keybtn2,
+                    fun: () => {
+                          CustomPopupmenu(
+                            cantidad: 3,
+                            pos: CustomPopupmenu.getWidgetGlobalRect(keybtn2),
+                            onState: stateChanged,
+                            items: [
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                            ],
+                          ).popupmenu()
+                        }),
+                Buttons(
+                    label: "Más",
+                    icon: Icons.more_horiz,
+                    color: Colors.green,
+                    key: keybtn3,
+                    fun: () => {
+                          CustomPopupmenu(
+                            cantidad: 3,
+                            pos: CustomPopupmenu.getWidgetGlobalRect(keybtn3),
+                            onState: stateChanged,
+                            items: [
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                              MenuItem(
+                                image: Icon(
+                                  Icons.mail,
+                                  color: Colors.white,
+                                ),
+                                title: "CORREO",
+                              ),
+                            ],
+                          ).popupmenu()
+                        }),
+                //_button("Más", Icons.more_horiz, Colors.green, keybtn3),
               ],
             ),
             SizedBox(
@@ -267,60 +365,9 @@ Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la 
         ));
   }
 
-  Widget _button(String label, IconData icon, Color color) {
-
-    return Column(
-      children: <Widget>[
-      ElevatedButton(
-        onPressed: () => {
-          popupMenu()
-        }, 
-        child: Container(
-          height: 57.0,
-          width: 57.0,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          child: Icon(icon),
-        ),
-        style: ElevatedButton.styleFrom(
-            primary: color,
-            shape: CircleBorder(),
-            shadowColor: Colors.black,
-          ),
-        ),
-        SizedBox(height: 12.0,),
-        Text(label)
-      ]
-    );
-  }
-  
-  void popupMenu(){
-    PopupMenu menu = PopupMenu(
-      items: [
-        MenuItem(title: 'Copy', image: Icon(Icons.copy)), 
-        MenuItem(title: 'Home', image: Icon(Icons.home, color: Colors.white,)), 
-        MenuItem(title: 'Mail', image: Icon(Icons.mail, color: Colors.white,)), 
-        MenuItem(title: 'Power', image: Icon(Icons.power, color: Colors.white,)),
-        MenuItem(title: 'Setting', image: Icon(Icons.settings, color: Colors.white,)), 
-        MenuItem(title: 'Traffic', image: Icon(Icons.traffic, color: Colors.white,))], 
-      onClickMenu: onClickMenu, 
-      stateChanged: stateChanged,
-      onDismiss: onDismiss
-      );
-
-    menu.show(rect:const Offset(1.0, 2.0) & const Size(3.0, 4.0));
-  }
-
   void stateChanged(bool isShow) {
     print('menu is ${isShow ? 'showing' : 'closed'}');
   }
-
-  void onClickMenu(MenuItemProvider item) {
-    print('Click menu -> ${item.menuTitle}');
-  }
-
-  void onDismiss() {
-    print('Menu is dismiss');
 
   Widget _body() {
     return FlutterMap(
@@ -331,21 +378,19 @@ Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la 
       ),
       layers: [
         TileLayerOptions(
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c'],
+          urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          subdomains: ['a', 'b', 'c'],
         ),
         MarkerLayerOptions(markers: [
           Marker(
               point: LatLng(28.656734, -106.07949787470359),
               builder: (ctx) => Icon(
-                Icons.location_on,
-                color: Colors.blue,
-                size: 48.0,
-              ),
-              height: 60
-            ),
-          ]
-        ),
+                    Icons.location_on,
+                    color: Colors.blue,
+                    size: 48.0,
+                  ),
+              height: 60),
+        ]),
       ],
     );
   }
