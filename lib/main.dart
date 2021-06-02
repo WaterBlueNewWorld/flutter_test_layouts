@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter/services.dart';
+import 'package:popup_menu/popup_menu.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:latlong/latlong.dart';
@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double _initSize = 100.0;
   double _fabHeight = 0;
   final GlobalKey<ScaffoldState> _state = new GlobalKey<ScaffoldState>();
+  
 
   void initState() {
     super.initState();
@@ -50,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     _openSize = MediaQuery.of(context).size.height * .80;
+    PopupMenu.context = context;
     
     return Scaffold(
       key: _state,
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
           panelBuilder: (scontroller) => _panel(scontroller),
           onPanelClosed: () {
-            scontroller.animateTo(scontroller.position.minScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+            //scontroller.animateTo(scontroller.position.minScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
           },
           collapsed: Stack(
             children: <Widget>[
@@ -188,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _button("Leer", Icons.qr_code, Colors.blue),
                 _button("Indicaciones", Icons.drag_indicator, Colors.red),
                 _button("Más", Icons.more_horiz, Colors.green),
+                
               ],
             ),
             SizedBox(
@@ -243,7 +246,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 12.0,
                   ),
                   Text(
-                    """Se conoce como adelitas o soldaderas a las mujeres que participaron en la Revolución mexicana, en los contingentes militares de grupos revolucionarios como soldados, cocineras, enfermeras o ayudantes. La mejor adelita. Adela Velarde Pérez fue la mujer cuyo nombre representaría a todas las enfermeras que prestaron sus servicios no sólo para cuidar de los enfermos y heridos durante la Revolución Mexicana, sino para cargar armas, encargarse de los alimentos e incluso participar en batallas si así se requería, según la Secretaría de Cultura.
+                    """Se conoce como adelitas o soldaderas a las mujeres que participaron en la Revolución mexicana, en los contingentes militares de grupos revolucionarios como soldados, cocineras, enfermeras o ayudantes. La mejor adelita. Adela Velarde Pérez fue la mujer cuyo nombre representaría a todas las enfermeras que prestaron sus servicios no sólo para cuidar de los enfermos y heridos durante la Revolución Mexicana, sino para cargar armas, encargarse de los alimentos e incluso participar en batallas si así se requería, según la Secretaría de Cultura. Versiones historiográficas y periodísticas coinciden en señalar a Adela Velarde Pérez, enfermera oriunda de Ciudad Juárez, como la persona que inspiró el corrido popular «Adelita». Fue nieta de Rafael Velarde, amiga de Benito Juárez, quien dio alojamiento al Benemérito de las Américas en su exilio en Paso del Norte (hoy Ciudad Juárez). En 1914, "Adelita" atendió al soldado herido Antonio del Río Armenta, quien le compuso la famosa canción-marcha.
+Adelita atendía a los heridos villistas de la División del Norte, como parte de la Brigada de la Cruz que formó la señora Leonor Villegas de Manón.
+ 
+Al concluir la lucha armada, Adela Velarde Pérez, perfectamente identificada, recibió años después un homenaje como veterana de guerra. 
+Es importante señalar que el verdadero autor de la letra de la canción "Adelita" fue Guadalupe Barajas Romero, originario de Huecorio, Municipio de Pátzcuaro, Michoacán, México, sin que haya evidencia de que Adela Velarde Pérez haya sido su musa inspiradora. Familiares del señor Barajas tienen en su poder la letra original firmada por su autor.
+Cada 20 de noviembre, muchas niñas se disfrazan de adelitas como parte de las actividades para la celebración del día de la Revolución mexicana.
+
+Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la historia de la Revolución Mexicana. Tal es el caso de Petra Herrera, quien tuvo que luchar disfrazada de hombre y bajo el seudónimo de Pedro Herrera, pero gracias a sus notables hazañas ganó reconocimiento por parte de sus compañeros de batalla.
                   """,
                     softWrap: true,
                   ),
@@ -258,30 +268,59 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _button(String label, IconData icon, Color color) {
+
     return Column(
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          child: Icon(
-            icon,
-            color: Colors.white,
+      ElevatedButton(
+        onPressed: () => {
+          popupMenu()
+        }, 
+        child: Container(
+          height: 57.0,
+          width: 57.0,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(shape: BoxShape.circle),
+          child: Icon(icon),
+        ),
+        style: ElevatedButton.styleFrom(
+            primary: color,
+            shape: CircleBorder(),
+            shadowColor: Colors.black,
           ),
-          decoration:
-              BoxDecoration(color: color, shape: BoxShape.circle, boxShadow: [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.15),
-              blurRadius: 8.0,
-            )
-          ]),
         ),
-        SizedBox(
-          height: 12.0,
-        ),
-        Text(label),
-      ],
+        SizedBox(height: 12.0,),
+        Text(label)
+      ]
     );
   }
   
+  void popupMenu(){
+    PopupMenu menu = PopupMenu(
+      items: [
+        MenuItem(title: 'Copy', image: Icon(Icons.copy)), 
+        MenuItem(title: 'Home', image: Icon(Icons.home, color: Colors.white,)), 
+        MenuItem(title: 'Mail', image: Icon(Icons.mail, color: Colors.white,)), 
+        MenuItem(title: 'Power', image: Icon(Icons.power, color: Colors.white,)),
+        MenuItem(title: 'Setting', image: Icon(Icons.settings, color: Colors.white,)), 
+        MenuItem(title: 'Traffic', image: Icon(Icons.traffic, color: Colors.white,))], 
+      onClickMenu: onClickMenu, 
+      stateChanged: stateChanged,
+      onDismiss: onDismiss
+      );
+
+    menu.show(rect:const Offset(1.0, 2.0) & const Size(3.0, 4.0));
+  }
+
+  void stateChanged(bool isShow) {
+    print('menu is ${isShow ? 'showing' : 'closed'}');
+  }
+
+  void onClickMenu(MenuItemProvider item) {
+    print('Click menu -> ${item.menuTitle}');
+  }
+
+  void onDismiss() {
+    print('Menu is dismiss');
 
   Widget _body() {
     return FlutterMap(
