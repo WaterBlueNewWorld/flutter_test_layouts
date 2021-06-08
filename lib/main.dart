@@ -40,20 +40,21 @@ class _MyHomePageState extends State<MyHomePage> {
   double _initSize = 100.0;
   double _fabHeight = 0;
   final GlobalKey<ScaffoldState> _state = new GlobalKey<ScaffoldState>();
+  final GlobalKey _lvState = new GlobalKey();
+  final PanelController _pc = new PanelController();
   final GlobalKey keybtn1 = new GlobalKey();
   final GlobalKey keybtn2 = new GlobalKey();
   final GlobalKey keybtn3 = new GlobalKey();
+  ScrollController scontroller = new ScrollController();
 
   void initState() {
     super.initState();
     _fabHeight = _initSize;
   }
 
-  final ScrollController scontroller = new ScrollController();
-
   @override
   Widget build(BuildContext context) {
-    _openSize = MediaQuery.of(context).size.height * .80;
+    _openSize = MediaQuery.of(context).size.height * .76;
     PopupMenu.context = context;
 
     return Scaffold(
@@ -62,12 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: Alignment.topCenter,
         children: <Widget>[
           SlidingUpPanel(
+            controller: _pc,
             parallaxEnabled: true,
             parallaxOffset: .5,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(18.0),
                 topRight: Radius.circular(18.0)),
-            backdropTapClosesPanel: false,
+            backdropTapClosesPanel: true,
             backdropEnabled: true,
             backdropColor: Colors.black,
             backdropOpacity: 0.5,
@@ -77,10 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
             onPanelSlide: (double pos) => setState(() {
               _fabHeight = pos * (_openSize - _closeSize) + _initSize;
             }),
-            panelBuilder: (scontroller) => _panel(scontroller),
-            onPanelClosed: () {
-              //scontroller.animateTo(scontroller.position.minScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-            },
+            panelBuilder: (sc) => _panel(sc),
+            onPanelClosed: () {scontroller.animateTo(scontroller.position.minScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);},
             collapsed: Stack(
               children: <Widget>[
                 Row(
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Positioned(
             top: 35.0,
             child: Container(
-              padding: const EdgeInsets.fromLTRB(20.0, 18.0, 20.0, 18.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 18.0),
               child: Text(
                 "Lector QR PECUU",
                 style: TextStyle(fontWeight: FontWeight.w500),
@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 15,
               left: 20.0,
               child: Container(
-                padding: const EdgeInsets.fromLTRB(6.0, 18.0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(6.0, 20.0, 0, 0),
                 child: FloatingActionButton(
                   child: Icon(Icons.menu, color: Colors.blue),
                   backgroundColor: Colors.white,
@@ -156,12 +156,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _panel(ScrollController sc) {
+  Future<bool> _onWillPop() async {
+    return (_pc.close()) ?? false;
+  }
+
+  Widget _panel(ScrollController sc2) {
+    scontroller = sc2;
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,
         child: ListView(
-          controller: sc,
+          controller: scontroller,
           children: <Widget>[
             SizedBox(
               height: 36.0,
@@ -288,7 +293,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ).popupmenu()
                         }),
-                //_button("Más", Icons.more_horiz, Colors.green, keybtn3),
               ],
             ),
             SizedBox(
@@ -353,7 +357,8 @@ Cada 20 de noviembre, muchas niñas se disfrazan de adelitas como parte de las a
 
 Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la historia de la Revolución Mexicana. Tal es el caso de Petra Herrera, quien tuvo que luchar disfrazada de hombre y bajo el seudónimo de Pedro Herrera, pero gracias a sus notables hazañas ganó reconocimiento por parte de sus compañeros de batalla.
                   """,
-                    softWrap: true,textAlign: TextAlign.justify,
+                    softWrap: true,
+                    textAlign: TextAlign.justify,
                   ),
                 ],
               ),
@@ -374,7 +379,10 @@ Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la 
       options: MapOptions(
         center: LatLng(28.656734, -106.07949787470359),
         zoom: 13,
-        maxZoom: 15,
+        maxZoom: 18,
+        interactiveFlags: InteractiveFlag.pinchZoom |
+            InteractiveFlag.drag |
+            InteractiveFlag.doubleTapZoom,
       ),
       layers: [
         TileLayerOptions(
@@ -383,13 +391,16 @@ Además de la ya conocida Adelita, existen otras soldaderas de relevancia en la 
         ),
         MarkerLayerOptions(markers: [
           Marker(
-              point: LatLng(28.656734, -106.07949787470359),
-              builder: (ctx) => Icon(
-                    Icons.location_on,
-                    color: Colors.blue,
-                    size: 48.0,
+              point: LatLng(28.656734, -106.079497),
+              builder: (ctx) => Container(
+                    child: Icon(
+                      Icons.location_pin,
+                      color: Colors.red,
+                      size: 48.0,
+                    ),
                   ),
-              height: 60),
+              height: 60,
+              width: 60),
         ]),
       ],
     );
