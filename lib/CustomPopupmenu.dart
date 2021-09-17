@@ -14,9 +14,9 @@ class CustomPopupmenu {
       {this.pos,
       @required this.items,
       @required this.cantidad,
-      this.onClick,
-      this.onClose,
-      this.onState});
+      @required this.onClick,
+      @required this.onClose,
+      @required this.onState});
 
   static Rect getWidgetGlobalRect(GlobalKey key) {
     RenderBox renderBox = key.currentContext.findRenderObject();
