@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '',
       theme: ThemeData(
+        primarySwatch: Colors.purple,
         backgroundColor: Colors.white,
         focusColor: Colors.blue,
         accentIconTheme: IconThemeData(color: Colors.black)

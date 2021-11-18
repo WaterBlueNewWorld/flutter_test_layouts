@@ -5,10 +5,10 @@ import 'package:introduction_screen/introduction_screen.dart';
 class OnBoardScreen extends StatefulWidget{
 
   @override
-  StateOnBoardScreen createState() => StateOnBoardScreen();
+  _StateOnBoardScreen createState() => _StateOnBoardScreen();
 }
 
-class StateOnBoardScreen extends State<OnBoardScreen>{
+class _StateOnBoardScreen extends State<OnBoardScreen>{
   GlobalKey keyIntro = new GlobalKey();
 
   @override
@@ -21,11 +21,16 @@ class StateOnBoardScreen extends State<OnBoardScreen>{
         next: const Icon(Icons.navigate_next),
         pages: [
           PageViewModel(
+            useScrollView: true,
+            decoration: PageDecoration(
+              imagePadding: EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 0.0)
+            ),
             title: "PRUEBA PRUEBA",
-            body: "sdjlfhskdfg",
-              image: const Center(
-                child: Icon(Icons.android),
-              )
+            body: "Prueba de tutorial de agregado de negocio \n"
+                "sdfsdfsdf",
+            image: Center(
+              child: Image.asset('assets/aaaaAAAAAAAAAAAAA.png'),
+            )
           ),
           PageViewModel(
             title: "dos dos",
@@ -38,6 +43,7 @@ class StateOnBoardScreen extends State<OnBoardScreen>{
         onDone: () {
           Navigator.of(context).pop();
         },
+
       ),
     );
   }
