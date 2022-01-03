@@ -18,7 +18,7 @@ class FormularioState extends State<Formulario>{
             child: Form(
               autovalidateMode: AutovalidateMode.always,
               onChanged: () {
-                Form.of(primaryFocus.context).save();
+                Form.of(context)?.save();
               },
               child: Wrap(
                 children: List<Widget>.generate(5, (int index) {
@@ -28,10 +28,10 @@ class FormularioState extends State<Formulario>{
                       constraints: BoxConstraints.tight(const Size(300, 50)),
                       child: TextFormField(
                         enabled: false,
-                        validator: (String value) {
-                          return (value.isEmpty) ? 'Do not use the @ char.' : null;
+                        validator: (String? value) {
+                          return (value!.isEmpty) ? 'Do not use the @ char.' : null;
                         },
-                        onSaved: (String value) {
+                        onSaved: (String? value) {
                           print('Value for field $index saved as "$value"');
                         },
                       ),

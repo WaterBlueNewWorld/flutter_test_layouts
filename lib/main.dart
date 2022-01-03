@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         backgroundColor: Colors.black,
         focusColor: Colors.white,
-          accentIconTheme: IconThemeData(color: Colors.white)
       ),
       home: Seleccion(),
       debugShowCheckedModeBanner: false,

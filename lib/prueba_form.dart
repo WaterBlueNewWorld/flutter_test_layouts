@@ -7,7 +7,7 @@ class ObservacionForm extends StatefulWidget{
   final String nombre;
 
   ObservacionForm({
-    @required this.idFatiga,
+    required this.idFatiga,
     this.nombre = 'vacio'
   });
 
@@ -16,7 +16,7 @@ class ObservacionForm extends StatefulWidget{
 }
 
 class _ObservacionFormState extends State<ObservacionForm>{
-  TextEditingController _campo1;
+  late TextEditingController _campo1;
   final GlobalKey<FormState> _formKey = new GlobalKey();
 
   @override
@@ -24,7 +24,7 @@ class _ObservacionFormState extends State<ObservacionForm>{
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            if(_formKey.currentState.validate()){
+            if(_formKey.currentState!.validate()){
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Processing Data')),
               );

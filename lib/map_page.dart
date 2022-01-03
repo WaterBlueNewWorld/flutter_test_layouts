@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: FloatingActionButton(
                   child: Icon(Icons.menu, color: Colors.blue),
                   backgroundColor: Colors.white,
-                  onPressed: () => {_state.currentState.openDrawer()},
+                  onPressed: () => {_state.currentState!.openDrawer()},
                 ),
               ))
         ],

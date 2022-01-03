@@ -5,14 +5,14 @@ class Buttons extends StatelessWidget {
   String label;
   IconData icon;
   Color color;
-  Function fun;
+  VoidCallback fun;
   GlobalKey key;
 
   Buttons({
-    @required this.label,
-    @required this.icon,
-    @required this.fun,
-    @required this.key,
+    required this.label,
+    required this.icon,
+    required this.fun,
+    required this.key,
     this.color = Colors.blue,
   });
 
